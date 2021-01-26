@@ -1,3 +1,4 @@
+/* En lille test af om det virker */
 let computerTurn = false;
 
 let activeCrosses = [0, 0, 0, 0, 0, 0, 0, 0, 0];
