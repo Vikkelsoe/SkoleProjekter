@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LectioApp.Person">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAIAAAEAEAAAAAACAAAAAAIAAAAAAAAAAAAI=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Elev">
+    <Position X="4.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Elev.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Lærer">
+    <Position X="6.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Lærer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Administrator">
+    <Position X="9" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Administrator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Skole">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgABAgAAAICAAAAAAAgAAAAAAAAAAAAAgQAIAAAA=</HashCode>
+      <FileName>Skole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Hold">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Hold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LectioApp.Karakter">
+    <Position X="1.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAgAAAAAQAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Karakter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
