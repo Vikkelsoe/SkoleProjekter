@@ -1,8 +1,8 @@
-/* En lille test af om det virker */
 let computerTurn = false;
 
-let activeCrosses = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-let activeNoughts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+let cases = [];
 
 /*
 Spilbrættet benævnes således:
@@ -49,8 +49,15 @@ function draw() {
   line(0, 170, 510, 170);
   line(0, 340, 510, 340);
 
-  for (let i = 0; i < activeCrosses.length; i++) {
-    if (activeCrosses[i] == 1) {
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] == 1) {
+      strokeWeight(2);
+      stroke("black");
+      fill("red");
+      circle(positionsX[i], positionsY[i], 130);
+      fill(200);
+      circle(positionsX[i], positionsY[i], 100);
+    } else if (board[i] == 2) {
       strokeWeight(10);
       stroke("green");
       line(
@@ -68,15 +75,8 @@ function draw() {
     }
   }
 
-  for (let i = 0; i < activeNoughts.length; i++) {
-    if (activeNoughts[i] == 1) {
-      strokeWeight(2);
-      stroke("black");
-      fill("red");
-      circle(positionsX[i], positionsY[i], 130);
-      fill(200);
-      circle(positionsX[i], positionsY[i], 100);
-    }
+  if (computerTurn) {
+    computerMove();
   }
 }
 
@@ -84,55 +84,78 @@ function mousePressed() {
   if (!computerTurn) {
     if (mouseX < 170) {
       if (mouseY < 170) {
-        if (activeCrosses[0] == 0) {
-          activeCrosses[0] = 1;
+        if (board[0] == 0) {
+          board[0] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 340) {
-        if (activeCrosses[3] == 0) {
-          activeCrosses[3] = 1;
+        if (board[3] == 0) {
+          board[3] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 510) {
-        if (activeCrosses[6] == 0) {
-          activeCrosses[6] = 1;
+        if (board[6] == 0) {
+          board[6] = 2;
+          checkForWin();
           computerTurn = true;
         }
       }
     } else if (mouseX < 340) {
       if (mouseY < 170) {
-        if (activeCrosses[1] == 0) {
-          activeCrosses[1] = 1;
+        if (board[1] == 0) {
+          board[1] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 340) {
-        if (activeCrosses[4] == 0) {
-          activeCrosses[4] = 1;
+        if (board[4] == 0) {
+          board[4] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 510) {
-        if (activeCrosses[7] == 0) {
-          activeCrosses[7] = 1;
+        if (board[7] == 0) {
+          board[7] = 2;
+          checkForWin();
           computerTurn = true;
         }
       }
     } else if (mouseX < 510) {
       if (mouseY < 170) {
-        if (activeCrosses[2] == 0) {
-          activeCrosses[2] = 1;
+        if (board[2] == 0) {
+          board[2] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 340) {
-        if (activeCrosses[5] == 0) {
-          activeCrosses[5] = 1;
+        if (board[5] == 0) {
+          board[5] = 2;
+          checkForWin();
           computerTurn = true;
         }
       } else if (mouseY < 510) {
-        if (activeCrosses[8] == 0) {
-          activeCrosses[8] = 1;
+        if (board[8] == 0) {
+          board[8] = 2;
+          checkForWin();
           computerTurn = true;
         }
       }
     }
   }
 }
+
+function computerMove() {
+  findCase();
+}
+
+function findCase() {
+  for (let i = 0; i < cases.length; i++) {}
+}
+
+function checkIfEqual(list1, list2) {}
+
+function findMove(currenCase) {}
+
+function checkForWin() {}
