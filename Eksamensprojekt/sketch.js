@@ -1,4 +1,5 @@
 let computerTurn = false;
+let moveNum = 1;
 
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -87,18 +88,21 @@ function mousePressed() {
         if (board[0] == 0) {
           board[0] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 340) {
         if (board[3] == 0) {
           board[3] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 510) {
         if (board[6] == 0) {
           board[6] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       }
@@ -107,18 +111,21 @@ function mousePressed() {
         if (board[1] == 0) {
           board[1] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 340) {
         if (board[4] == 0) {
           board[4] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 510) {
         if (board[7] == 0) {
           board[7] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       }
@@ -127,18 +134,21 @@ function mousePressed() {
         if (board[2] == 0) {
           board[2] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 340) {
         if (board[5] == 0) {
           board[5] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       } else if (mouseY < 510) {
         if (board[8] == 0) {
           board[8] = 2;
           checkForWin();
+          moveNum += 1;
           computerTurn = true;
         }
       }
@@ -147,11 +157,31 @@ function mousePressed() {
 }
 
 function computerMove() {
-  findCase();
+  currentCase = findCase();
+  if (currenCase == false) {
+    //new case
+  } else {
+    findMove(cases[currenCase]);
+  }
 }
 
 function findCase() {
-  for (let i = 0; i < cases.length; i++) {}
+  foundCase == false;
+  for (let i = 0; i < cases.length; i++) {
+    if (
+      checkIfEqual(board, cases[i].subCase1) ||
+      checkIfEqual(board, cases[i].subCase2) ||
+      checkIfEqual(board, cases[i].subCase3) ||
+      checkIfEqual(board, cases[i].subCase4) ||
+      checkIfEqual(board, cases[i].subCase5) ||
+      checkIfEqual(board, cases[i].subCase6) ||
+      checkIfEqual(board, cases[i].subCase7) ||
+      checkIfEqual(board, cases[i].subCase8)
+    ) {
+      foundCase = i;
+    }
+  }
+  return foundCase;
 }
 
 function checkIfEqual(list1, list2) {}
