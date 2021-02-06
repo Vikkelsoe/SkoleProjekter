@@ -157,35 +157,78 @@ function mousePressed() {
 }
 
 function computerMove() {
-  currentCase = findCase();
-  if (currenCase == false) {
-    //new case
-  } else {
-    findMove(cases[currenCase]);
+  let caseAndSub = findCaseAndSub();
+  if (caseAndSub.length == 0) {
+    cases.push(new Case(board));
+    caseAndSub = [cases.length - 1, 1];
   }
+  let currentCase = cases[caseAndSub[0]];
+  let currentSubCaseIndex = caseAndSub[1];
+  let chosenMoveIndex = findMove(currentCase);
+  currentCase.move(currentSubCaseIndex, chosenMoveIndex);
 }
 
-function findCase() {
-  foundCase == false;
+function findCaseAndSub() {
+  let foundCaseAndSub = [];
   for (let i = 0; i < cases.length; i++) {
-    if (
-      checkIfEqual(board, cases[i].subCase1) ||
-      checkIfEqual(board, cases[i].subCase2) ||
-      checkIfEqual(board, cases[i].subCase3) ||
-      checkIfEqual(board, cases[i].subCase4) ||
-      checkIfEqual(board, cases[i].subCase5) ||
-      checkIfEqual(board, cases[i].subCase6) ||
-      checkIfEqual(board, cases[i].subCase7) ||
-      checkIfEqual(board, cases[i].subCase8)
-    ) {
-      foundCase = i;
+    if (checkIfEqual(board, cases[i].subCase1)) {
+      foundCaseAndSub = [i, 1];
+    } else if (checkIfEqual(board, cases[i].subCase2)) {
+      foundCaseAndSub = [i, 2];
+    } else if (checkIfEqual(board, cases[i].subCase3)) {
+      foundCaseAndSub = [i, 3];
+    } else if (checkIfEqual(board, cases[i].subCase4)) {
+      foundCaseAndSub = [i, 4];
+    } else if (checkIfEqual(board, cases[i].subCase5)) {
+      foundCaseAndSub = [i, 5];
+    } else if (checkIfEqual(board, cases[i].subCase6)) {
+      foundCaseAndSub = [i, 6];
+    } else if (checkIfEqual(board, cases[i].subCase7)) {
+      foundCaseAndSub = [i, 7];
+    } else if (checkIfEqual(board, cases[i].subCase8)) {
+      foundCaseAndSub = [i, 8];
     }
   }
-  return foundCase;
+  return foundCaseAndSub;
 }
 
-function checkIfEqual(list1, list2) {}
+function findMove(detectedCase) {
+  let moveIndex;
+  let pointSum = 0;
+  for (let i = 0; i < detectedCase.moveWeight.length; i++) {
+    pointSum += detectedCase.moveWeight[i];
+  }
 
-function findMove(currenCase) {}
+  if (pointSum == 0) {
+    console.log("Ingen gunstige træk. Computeren giver op");
+  } else {
+    chosenPoint = random(1, pointSum);
+    runCount = 0;
+    for (let i = 0; i < detectedCase.moveWeight.length; i++) {
+      runCount += detectedCase.moveWeight[i];
+      if (chosenPoint <= runCount) {
+        moveIndex = i;
+        break;
+      }
+    }
+  }
+  return moveIndex;
+}
+
+//funktion kontrollerer om to lister af samme længde har ens elementer i ens rækkefølge
+function checkIfEqual(list1, list2) {
+  let equals = 0;
+  for (let j = 0; j < list1.length; j++) {
+    if (list1[j] == list2[j]) {
+      equals++;
+    }
+  }
+
+  if (equals == list2.length) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function checkForWin() {}

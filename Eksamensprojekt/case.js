@@ -189,5 +189,7 @@ class Case {
     }
   }
 
+  move(subCase, chosenMove) {}
+
   printCase() {}
 }
