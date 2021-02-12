@@ -1,4 +1,4 @@
-let computerTurn = false;
+let computerTurn = true;
 let moveNum = 1;
 
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -157,15 +157,53 @@ function mousePressed() {
 }
 
 function computerMove() {
-  let caseAndSub = findCaseAndSub();
-  if (caseAndSub.length == 0) {
-    cases.push(new Case(board));
-    caseAndSub = [cases.length - 1, 1];
+  let currentCaseAndSub = findCaseAndSub();
+  let currentCase;
+  let chosenMoveIndex;
+
+  if (currentCaseAndSub.length == 0) {
+    cases.push(
+      new Case([
+        board[0],
+        board[1],
+        board[2],
+        board[3],
+        board[4],
+        board[5],
+        board[6],
+        board[7],
+        board[8],
+      ])
+    );
+    currentCaseAndSub = [cases.length - 1, 1];
+    console.log("En ny case blev oprettet");
   }
-  let currentCase = cases[caseAndSub[0]];
-  let currentSubCaseIndex = caseAndSub[1];
-  let chosenMoveIndex = findMove(currentCase);
-  currentCase.move(currentSubCaseIndex, chosenMoveIndex);
+  console.log(cases[cases.length - 1]);
+  currentCase = cases[currentCaseAndSub[0]];
+  chosenMoveIndex = findMove(currentCase);
+  console.log(chosenMoveIndex);
+
+  if (currentCaseAndSub[1] == 1) {
+    board[currentCase.posSub1Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 2) {
+    board[currentCase.posSub2Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 3) {
+    board[currentCase.posSub3Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 4) {
+    board[currentCase.posSub4Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 5) {
+    board[currentCase.posSub5Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 6) {
+    board[currentCase.posSub6Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 7) {
+    board[currentCase.posSub7Moves[chosenMoveIndex]] = 1;
+  } else if (currentCaseAndSub[1] == 8) {
+    board[currentCase.posSub8Moves[chosenMoveIndex]] = 1;
+  }
+
+  checkForWin();
+  moveNum += 1;
+  computerTurn = false;
 }
 
 function findCaseAndSub() {
@@ -224,7 +262,7 @@ function checkIfEqual(list1, list2) {
     }
   }
 
-  if (equals == list2.length) {
+  if (equals == list1.length && equals == list2.length) {
     return true;
   } else {
     return false;
