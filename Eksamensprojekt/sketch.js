@@ -1,8 +1,12 @@
 let computerTurn = true;
 let moveNum = 1;
-
+let draws = 0;
+let gameOn = true;
+let gameEndTime;
+let lastResult;
+let playerWins = 0;
+let computerWins = 0;
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
 let cases = [];
 
 /*
@@ -42,114 +46,86 @@ function setup() {
 }
 
 function draw() {
-  background(200);
-  strokeWeight(2);
-  stroke("black");
-  line(170, 0, 170, 510);
-  line(340, 0, 340, 510);
-  line(0, 170, 510, 170);
-  line(0, 340, 510, 340);
+  drawBoard();
 
-  for (let i = 0; i < board.length; i++) {
-    if (board[i] == 1) {
-      strokeWeight(2);
-      stroke("black");
-      fill("red");
-      circle(positionsX[i], positionsY[i], 130);
-      fill(200);
-      circle(positionsX[i], positionsY[i], 100);
-    } else if (board[i] == 2) {
-      strokeWeight(10);
-      stroke("green");
-      line(
-        positionsX[i] - 65,
-        positionsY[i] - 65,
-        positionsX[i] + 65,
-        positionsY[i] + 65
-      );
-      line(
-        positionsX[i] + 65,
-        positionsY[i] - 65,
-        positionsX[i] - 65,
-        positionsY[i] + 65
-      );
-    }
+  if (!gameOn && frameCount >= gameEndTime + 30) {
+    restartGame();
   }
 
-  if (computerTurn) {
+  if (computerTurn && gameOn) {
     computerMove();
   }
 }
 
 function mousePressed() {
-  if (!computerTurn) {
+  if (!computerTurn && gameOn) {
     if (mouseX < 170) {
       if (mouseY < 170) {
         if (board[0] == 0) {
           board[0] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 340) {
         if (board[3] == 0) {
           board[3] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 510) {
         if (board[6] == 0) {
           board[6] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       }
     } else if (mouseX < 340) {
       if (mouseY < 170) {
         if (board[1] == 0) {
           board[1] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 340) {
         if (board[4] == 0) {
           board[4] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 510) {
         if (board[7] == 0) {
           board[7] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       }
     } else if (mouseX < 510) {
       if (mouseY < 170) {
         if (board[2] == 0) {
           board[2] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 340) {
         if (board[5] == 0) {
           board[5] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       } else if (mouseY < 510) {
         if (board[8] == 0) {
           board[8] = 2;
-          checkForWin();
           moveNum += 1;
           computerTurn = true;
+          checkForWin();
         }
       }
     }
@@ -201,9 +177,9 @@ function computerMove() {
     board[currentCase.posSub8Moves[chosenMoveIndex]] = 1;
   }
 
-  checkForWin();
   moveNum += 1;
   computerTurn = false;
+  checkForWin();
 }
 
 function findCaseAndSub() {
@@ -269,4 +245,100 @@ function checkIfEqual(list1, list2) {
   }
 }
 
-function checkForWin() {}
+function checkForWin() {
+  if (
+    (board[0] == board[1] && board[0] == board[2] && board[0] == 1) ||
+    (board[3] == board[4] && board[3] == board[5] && board[3] == 1) ||
+    (board[6] == board[7] && board[6] == board[8] && board[6] == 1) ||
+    (board[0] == board[3] && board[0] == board[6] && board[0] == 1) ||
+    (board[1] == board[4] && board[1] == board[7] && board[1] == 1) ||
+    (board[2] == board[5] && board[2] == board[8] && board[2] == 1) ||
+    (board[0] == board[4] && board[0] == board[8] && board[0] == 1) ||
+    (board[2] == board[4] && board[2] == board[6] && board[2] == 1)
+  ) {
+    computerWins += 1;
+    lastResult = "COMPUTEREN VINDER";
+    gameEndTime = frameCount;
+    gameOn = false;
+  } else if (
+    (board[0] == board[1] && board[0] == board[2] && board[0] == 2) ||
+    (board[3] == board[4] && board[3] == board[5] && board[3] == 2) ||
+    (board[6] == board[7] && board[6] == board[8] && board[6] == 2) ||
+    (board[0] == board[3] && board[0] == board[6] && board[0] == 2) ||
+    (board[1] == board[4] && board[1] == board[7] && board[1] == 2) ||
+    (board[2] == board[5] && board[2] == board[8] && board[2] == 2) ||
+    (board[0] == board[4] && board[0] == board[8] && board[0] == 2) ||
+    (board[2] == board[4] && board[2] == board[6] && board[2] == 2)
+  ) {
+    playerWins += 1;
+    lastResult = "SPILLEREN VINDER";
+    gameEndTime = frameCount;
+    gameOn = false;
+  } else if (
+    board[0] != 0 &&
+    board[1] != 0 &&
+    board[2] != 0 &&
+    board[3] != 0 &&
+    board[4] != 0 &&
+    board[5] != 0 &&
+    board[6] != 0 &&
+    board[7] != 0 &&
+    board[8] != 0
+  ) {
+    draws += 1;
+    lastResult = "SPILLET ER UAFGJORT";
+    gameEndTime = frameCount;
+    gameOn = false;
+  }
+}
+
+function restartGame() {
+  alert(
+    lastResult +
+      "\n\nStilling:\nSpiller " +
+      playerWins +
+      " - " +
+      computerWins +
+      " Computer\nAntal uafgjorte: " +
+      draws
+  );
+  computerTurn = true;
+  moveNum = 1;
+  board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  gameOn = true;
+}
+
+function drawBoard() {
+  background(200);
+  strokeWeight(2);
+  stroke("black");
+  line(170, 0, 170, 510);
+  line(340, 0, 340, 510);
+  line(0, 170, 510, 170);
+  line(0, 340, 510, 340);
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] == 1) {
+      strokeWeight(2);
+      stroke("black");
+      fill("red");
+      circle(positionsX[i], positionsY[i], 130);
+      fill(200);
+      circle(positionsX[i], positionsY[i], 100);
+    } else if (board[i] == 2) {
+      strokeWeight(10);
+      stroke("green");
+      line(
+        positionsX[i] - 65,
+        positionsY[i] - 65,
+        positionsX[i] + 65,
+        positionsY[i] + 65
+      );
+      line(
+        positionsX[i] + 65,
+        positionsY[i] - 65,
+        positionsX[i] - 65,
+        positionsY[i] + 65
+      );
+    }
+  }
+}
