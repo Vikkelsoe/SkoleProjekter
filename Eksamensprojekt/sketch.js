@@ -8,6 +8,9 @@ let playerWins = 0;
 let computerWins = 0;
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let cases = [];
+let playedCases = [];
+let playedMoves = [];
+let computerStats = [0];
 
 /*
 Spilbrættet benævnes således:
@@ -152,12 +155,17 @@ function computerMove() {
       ])
     );
     currentCaseAndSub = [cases.length - 1, 1];
-    console.log("En ny case blev oprettet");
   }
-  console.log(cases[cases.length - 1]);
   currentCase = cases[currentCaseAndSub[0]];
+  playedCases.push(currentCaseAndSub[0]);
   chosenMoveIndex = findMove(currentCase);
+  playedMoves.push(chosenMoveIndex);
+
+  /*
+   console.log(cases[currentCaseAndSub[0]]);
   console.log(chosenMoveIndex);
+  console.log("Mw: " + cases[currentCaseAndSub[0]].moveWeight);
+  */
 
   if (currentCaseAndSub[1] == 1) {
     board[currentCase.posSub1Moves[chosenMoveIndex]] = 1;
@@ -260,6 +268,8 @@ function checkForWin() {
     lastResult = "COMPUTEREN VINDER";
     gameEndTime = frameCount;
     gameOn = false;
+    computerStats.push(computerStats[computerStats.length - 1] + 1);
+    console.log(computerStats);
   } else if (
     (board[0] == board[1] && board[0] == board[2] && board[0] == 2) ||
     (board[3] == board[4] && board[3] == board[5] && board[3] == 2) ||
@@ -274,6 +284,8 @@ function checkForWin() {
     lastResult = "SPILLEREN VINDER";
     gameEndTime = frameCount;
     gameOn = false;
+    computerStats.push(computerStats[computerStats.length - 1] - 1);
+    console.log(computerStats);
   } else if (
     board[0] != 0 &&
     board[1] != 0 &&
@@ -289,6 +301,8 @@ function checkForWin() {
     lastResult = "SPILLET ER UAFGJORT";
     gameEndTime = frameCount;
     gameOn = false;
+    computerStats.push(computerStats[computerStats.length - 1]);
+    console.log(computerStats);
   }
 }
 
@@ -302,6 +316,20 @@ function restartGame() {
       " Computer\nAntal uafgjorte: " +
       draws
   );
+
+  for (let i = 0; i < playedCases.length; i++) {
+    if (lastResult == "SPILLEREN VINDER") {
+      if (cases[playedCases[i]].moveWeight[playedMoves[i]] > 0) {
+        cases[playedCases[i]].moveWeight[playedMoves[i]] -= 1;
+      }
+    } else if (lastResult == "COMPUTEREN VINDER") {
+      cases[playedCases[i]].moveWeight[playedMoves[i]] += 1;
+    }
+  }
+
+  playedCases = [];
+  playedMoves = [];
+
   computerTurn = true;
   moveNum = 1;
   board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
