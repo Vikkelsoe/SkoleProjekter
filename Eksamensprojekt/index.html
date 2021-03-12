@@ -16,9 +16,29 @@
     <script src="p5.js"></script>
     <script src="sketch.js"></script>
     <script src="case.js"></script>
+    <script src="FileSaver.js"></script>
   </head>
 
   <body>
     <main></main>
   </body>
+
+  <footer>
+    <br />
+    <b>Upload case data: </b>
+    <input type="file" onchange="loadFile1(this.files[0])" />
+    <br />
+    <b>Upload moveWeight data: </b>
+    <input type="file" onchange="loadFile2(this.files[0])" />
+    <script>
+      async function loadFile1(file) {
+        let text = await file.text();
+        uploadedText1 = text;
+      }
+      async function loadFile2(file) {
+        let text = await file.text();
+        uploadedText2 = text;
+      }
+    </script>
+  </footer>
 </html>

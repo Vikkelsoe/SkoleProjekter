@@ -11,6 +11,9 @@ let cases = [];
 let playedCases = [];
 let playedMoves = [];
 let computerStats = [0];
+let uploadedText1;
+let uploadedText2;
+let statsToPrint = "";
 
 /*
 Spilbrættet benævnes således:
@@ -46,6 +49,18 @@ let positionsY = {
 
 function setup() {
   createCanvas(510, 510);
+
+  caseDataButton = createButton("Hent case-data");
+  caseDataButton.position(580, 250);
+  caseDataButton.mousePressed(printCase);
+
+  readCasesButton = createButton("Indlæs tidligere case-data");
+  readCasesButton.position(550, 540);
+  readCasesButton.mousePressed(readCase);
+
+  caseDataButton = createButton("Hent statistikdata");
+  caseDataButton.position(575, 280);
+  caseDataButton.mousePressed(printStats);
 }
 
 function draw() {
@@ -133,6 +148,73 @@ function mousePressed() {
       }
     }
   }
+}
+
+function printCase() {
+  subCase1s = [];
+  moveWeights = [];
+
+  for (let i = 0; i < cases.length; i++) {
+    subCase1s.push(cases[i].subCase1 + "\n");
+    moveWeights.push(cases[i].moveWeight + "\n");
+  }
+
+  var blob1 = new Blob(subCase1s, {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob1, "CaseData.txt");
+
+  var blob2 = new Blob(moveWeights, {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob2, "MoveWeightData.txt");
+}
+
+function readCase() {
+  seperatedText = uploadedText1.split("\n");
+  inputCases = [];
+
+  for (let i = 0; i < seperatedText.length; i++) {
+    currentList = [];
+    for (let j = 0; j < seperatedText[i].length; j++) {
+      if (seperatedText[i][j] != ",") {
+        currentList.push(int(seperatedText[i][j]));
+      }
+    }
+    if (currentList.length > 0) {
+      inputCases.push(currentList);
+    }
+  }
+
+  seperatedText = uploadedText2.split("\n");
+  inputWeights = [];
+
+  //LØS DETE, SÅ FLERCIFREDE TAL IKKE DELES OP
+  for (let i = 0; i < seperatedText.length; i++) {
+    currentList = [];
+    for (let j = 0; j < seperatedText[i].length; j++) {
+      if (seperatedText[i][j] != ",") {
+        currentList.push(int(seperatedText[i][j]));
+      }
+    }
+    if (currentList.length > 0) {
+      inputWeights.push(currentList);
+    }
+  }
+
+  console.log(inputCases);
+  console.log(inputWeights);
+}
+
+function printStats() {
+  for (let i = 1; i < computerStats.length; i++) {
+    statsToPrint += str(computerStats[i]) + ",";
+  }
+
+  var blob3 = new Blob([statsToPrint], {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob3, "StatsData.txt");
 }
 
 function computerMove() {
@@ -269,7 +351,6 @@ function checkForWin() {
     gameEndTime = frameCount;
     gameOn = false;
     computerStats.push(computerStats[computerStats.length - 1] + 1);
-    console.log(computerStats);
   } else if (
     (board[0] == board[1] && board[0] == board[2] && board[0] == 2) ||
     (board[3] == board[4] && board[3] == board[5] && board[3] == 2) ||
@@ -285,7 +366,6 @@ function checkForWin() {
     gameEndTime = frameCount;
     gameOn = false;
     computerStats.push(computerStats[computerStats.length - 1] - 1);
-    console.log(computerStats);
   } else if (
     board[0] != 0 &&
     board[1] != 0 &&
@@ -302,7 +382,6 @@ function checkForWin() {
     gameEndTime = frameCount;
     gameOn = false;
     computerStats.push(computerStats[computerStats.length - 1]);
-    console.log(computerStats);
   }
 }
 
