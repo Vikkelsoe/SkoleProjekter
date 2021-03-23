@@ -1,3 +1,6 @@
+//LAV UPLOAD AF DATA SYSTEMET FÆRDIG MED RYDNING OG OPRETTELSE AF CASE
+//SØRG FOR DER OGSÅ UPLOADES DATA OM STATS
+
 let computerTurn = true;
 let moveNum = 1;
 let draws = 0;
@@ -50,17 +53,13 @@ let positionsY = {
 function setup() {
   createCanvas(510, 510);
 
-  caseDataButton = createButton("Hent case-data");
-  caseDataButton.position(580, 250);
-  caseDataButton.mousePressed(printCase);
+  getDataButton = createButton("Hent data");
+  getDataButton.position(580, 250);
+  getDataButton.mousePressed(printData);
 
   readCasesButton = createButton("Indlæs tidligere case-data");
   readCasesButton.position(550, 540);
   readCasesButton.mousePressed(readCase);
-
-  caseDataButton = createButton("Hent statistikdata");
-  caseDataButton.position(575, 280);
-  caseDataButton.mousePressed(printStats);
 }
 
 function draw() {
@@ -150,13 +149,17 @@ function mousePressed() {
   }
 }
 
-function printCase() {
+function printData() {
   subCase1s = [];
   moveWeights = [];
 
   for (let i = 0; i < cases.length; i++) {
     subCase1s.push(cases[i].subCase1 + "\n");
     moveWeights.push(cases[i].moveWeight + "\n");
+  }
+
+  for (let i = 1; i < computerStats.length; i++) {
+    statsToPrint += str(computerStats[i]) + ",";
   }
 
   var blob1 = new Blob(subCase1s, {
@@ -168,6 +171,11 @@ function printCase() {
     type: "text/plain;charset=utf-8",
   });
   saveAs(blob2, "MoveWeightData.txt");
+
+  var blob3 = new Blob([statsToPrint], {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob3, "StatsData.txt");
 }
 
 function readCase() {
@@ -188,33 +196,27 @@ function readCase() {
 
   seperatedText = uploadedText2.split("\n");
   inputWeights = [];
+  currentNum = "";
 
-  //LØS DETE, SÅ FLERCIFREDE TAL IKKE DELES OP
   for (let i = 0; i < seperatedText.length; i++) {
     currentList = [];
-    for (let j = 0; j < seperatedText[i].length; j++) {
+
+    for (let j = 0; j < seperatedText[i].length + 1; j++) {
       if (seperatedText[i][j] != ",") {
-        currentList.push(int(seperatedText[i][j]));
+        currentNum += seperatedText[i][j];
+      }
+      if (seperatedText[i][j] == "," || j == seperatedText[i].length) {
+        currentList.push(int(currentNum));
+        currentNum = "";
       }
     }
-    if (currentList.length > 0) {
+    if (currentList.length > 0 && !Number.isNaN(currentList[0])) {
       inputWeights.push(currentList);
     }
   }
 
   console.log(inputCases);
   console.log(inputWeights);
-}
-
-function printStats() {
-  for (let i = 1; i < computerStats.length; i++) {
-    statsToPrint += str(computerStats[i]) + ",";
-  }
-
-  var blob3 = new Blob([statsToPrint], {
-    type: "text/plain;charset=utf-8",
-  });
-  saveAs(blob3, "StatsData.txt");
 }
 
 function computerMove() {
