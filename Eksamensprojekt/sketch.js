@@ -1,14 +1,14 @@
-//LAV UPLOAD AF DATA SYSTEMET FÆRDIG MED RYDNING OG OPRETTELSE AF CASE
 //SØRG FOR DER OGSÅ UPLOADES DATA OM STATS
+//AFPRØV SKIDTET
 
 let computerTurn = true;
 let moveNum = 1;
-let draws = 0;
 let gameOn = true;
 let gameEndTime;
 let lastResult;
 let playerWins = 0;
 let computerWins = 0;
+let draws = 0;
 let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let cases = [];
 let playedCases = [];
@@ -179,6 +179,8 @@ function printData() {
 }
 
 function readCase() {
+  console.log(cases);
+
   seperatedText = uploadedText1.split("\n");
   inputCases = [];
 
@@ -217,6 +219,18 @@ function readCase() {
 
   console.log(inputCases);
   console.log(inputWeights);
+
+  cases = [];
+  computerStats = [];
+  playerWins = 0;
+  computerWins = 0;
+  draws = 0;
+
+  for (let i = 0; i < inputCases.length; i++) {
+    cases.push(new UpCase(inputCases[i], inputWeights[i]));
+  }
+
+  console.log(cases);
 }
 
 function computerMove() {
@@ -246,7 +260,7 @@ function computerMove() {
   playedMoves.push(chosenMoveIndex);
 
   /*
-   console.log(cases[currentCaseAndSub[0]]);
+  console.log(cases[currentCaseAndSub[0]]);
   console.log(chosenMoveIndex);
   console.log("Mw: " + cases[currentCaseAndSub[0]].moveWeight);
   */

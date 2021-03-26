@@ -1,82 +1,92 @@
-class Case {
-  constructor(boardPos) {
-    this.subCase1 = boardPos;
+class UpCase {
+  constructor(inCases, inWeights) {
+    this.subCase1 = [
+      inCases[0],
+      inCases[1],
+      inCases[2],
+      inCases[3],
+      inCases[4],
+      inCases[5],
+      inCases[6],
+      inCases[7],
+      inCases[8],
+    ];
     this.subCase2 = [
-      boardPos[6],
-      boardPos[3],
-      boardPos[0],
-      boardPos[7],
-      boardPos[4],
-      boardPos[1],
-      boardPos[8],
-      boardPos[5],
-      boardPos[2],
+      inCases[6],
+      inCases[3],
+      inCases[0],
+      inCases[7],
+      inCases[4],
+      inCases[1],
+      inCases[8],
+      inCases[5],
+      inCases[2],
     ];
     this.subCase3 = [
-      boardPos[8],
-      boardPos[7],
-      boardPos[6],
-      boardPos[5],
-      boardPos[4],
-      boardPos[3],
-      boardPos[2],
-      boardPos[1],
-      boardPos[0],
+      inCases[8],
+      inCases[7],
+      inCases[6],
+      inCases[5],
+      inCases[4],
+      inCases[3],
+      inCases[2],
+      inCases[1],
+      inCases[0],
     ];
     this.subCase4 = [
-      boardPos[2],
-      boardPos[5],
-      boardPos[8],
-      boardPos[1],
-      boardPos[4],
-      boardPos[7],
-      boardPos[0],
-      boardPos[3],
-      boardPos[6],
+      inCases[2],
+      inCases[5],
+      inCases[8],
+      inCases[1],
+      inCases[4],
+      inCases[7],
+      inCases[0],
+      inCases[3],
+      inCases[6],
     ];
     this.subCase5 = [
-      boardPos[2],
-      boardPos[1],
-      boardPos[0],
-      boardPos[5],
-      boardPos[4],
-      boardPos[3],
-      boardPos[8],
-      boardPos[7],
-      boardPos[6],
+      inCases[2],
+      inCases[1],
+      inCases[0],
+      inCases[5],
+      inCases[4],
+      inCases[3],
+      inCases[8],
+      inCases[7],
+      inCases[6],
     ];
     this.subCase6 = [
-      boardPos[8],
-      boardPos[5],
-      boardPos[2],
-      boardPos[7],
-      boardPos[4],
-      boardPos[1],
-      boardPos[6],
-      boardPos[3],
-      boardPos[0],
+      inCases[8],
+      inCases[5],
+      inCases[2],
+      inCases[7],
+      inCases[4],
+      inCases[1],
+      inCases[6],
+      inCases[3],
+      inCases[0],
     ];
     this.subCase7 = [
-      boardPos[6],
-      boardPos[7],
-      boardPos[8],
-      boardPos[3],
-      boardPos[4],
-      boardPos[5],
-      boardPos[0],
-      boardPos[1],
-      boardPos[2],
+      inCases[6],
+      inCases[7],
+      inCases[8],
+      inCases[3],
+      inCases[4],
+      inCases[5],
+      inCases[0],
+      inCases[1],
+      inCases[2],
     ];
     this.subCase8 = [
-      boardPos[0],
-      boardPos[3],
-      boardPos[6],
-      boardPos[1],
-      boardPos[4],
-      boardPos[7],
-      boardPos[2],
-      boardPos[5],
-      boardPos[8],
+      inCases[0],
+      inCases[3],
+      inCases[6],
+      inCases[1],
+      inCases[4],
+      inCases[7],
+      inCases[2],
+      inCases[5],
+      inCases[8],
     ];
 
     this.posSub1Moves = [];
@@ -97,17 +107,7 @@ class Case {
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
-      if (moveNum == 1) {
-        this.moveWeight.push(100);
-      } else if (moveNum == 3) {
-        this.moveWeight.push(50);
-      } else if (moveNum == 5) {
-        this.moveWeight.push(10);
-      } else if (moveNum == 7) {
-        this.moveWeight.push(5);
-      } else if (moveNum == 9) {
-        this.moveWeight.push(1);
-      }
+      this.moveWeight.push(inWeights[i]);
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
