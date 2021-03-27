@@ -25,12 +25,14 @@
   </body>
 
   <footer>
-    <br />
-    <b>Upload case data: </b>
+    <b>Upload case-data: </b>
     <input type="file" onchange="loadFile1(this.files[0])" />
     <br />
-    <b>Upload moveWeight data: </b>
+    <b>Upload moveWeight-data: </b>
     <input type="file" onchange="loadFile2(this.files[0])" />
+    <br />
+    <b>Upload stats-data: </b>
+    <input type="file" onchange="loadFile3(this.files[0])" />
     <script>
       async function loadFile1(file) {
         let text = await file.text();
@@ -39,6 +41,10 @@
       async function loadFile2(file) {
         let text = await file.text();
         uploadedText2 = text;
+      }
+      async function loadFile3(file) {
+        let text = await file.text();
+        uploadedText3 = text;
       }
     </script>
   </footer>

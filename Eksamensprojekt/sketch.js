@@ -1,4 +1,3 @@
-//SØRG FOR DER OGSÅ UPLOADES DATA OM STATS
 //AFPRØV SKIDTET
 
 let computerTurn = true;
@@ -16,6 +15,7 @@ let playedMoves = [];
 let computerStats = [0];
 let uploadedText1;
 let uploadedText2;
+let uploadedText3;
 let statsToPrint = "";
 
 /*
@@ -158,7 +158,9 @@ function printData() {
     moveWeights.push(cases[i].moveWeight + "\n");
   }
 
-  for (let i = 1; i < computerStats.length; i++) {
+  statsToPrint +=
+    str(playerWins) + "," + str(computerWins) + "," + str(draws) + ":";
+  for (let i = 0; i < computerStats.length; i++) {
     statsToPrint += str(computerStats[i]) + ",";
   }
 
@@ -179,8 +181,6 @@ function printData() {
 }
 
 function readCase() {
-  console.log(cases);
-
   seperatedText = uploadedText1.split("\n");
   inputCases = [];
 
@@ -217,11 +217,7 @@ function readCase() {
     }
   }
 
-  console.log(inputCases);
-  console.log(inputWeights);
-
   cases = [];
-  computerStats = [];
   playerWins = 0;
   computerWins = 0;
   draws = 0;
@@ -230,7 +226,29 @@ function readCase() {
     cases.push(new UpCase(inputCases[i], inputWeights[i]));
   }
 
-  console.log(cases);
+  seperatedText = uploadedText3.split(":");
+  playerWins = int(seperatedText[0][0]);
+  computerWins = int(seperatedText[0][2]);
+  draws = int(seperatedText[0][4]);
+  computerStats = [];
+
+  currentNum = "";
+
+  for (let i = 0; i < seperatedText[1].length; i++) {
+    if (seperatedText[1][i] != ",") {
+      currentNum += seperatedText[1][i];
+    }
+    if (seperatedText[1][i] == "," || i == seperatedText[1].length) {
+      computerStats.push(int(currentNum));
+      currentNum = "";
+    }
+  }
+
+  alert(
+    "Der er blevet indlæst " +
+      inputCases.length +
+      " cases fra filerne samt tilhørende statistiske data."
+  );
 }
 
 function computerMove() {
@@ -258,12 +276,6 @@ function computerMove() {
   playedCases.push(currentCaseAndSub[0]);
   chosenMoveIndex = findMove(currentCase);
   playedMoves.push(chosenMoveIndex);
-
-  /*
-  console.log(cases[currentCaseAndSub[0]]);
-  console.log(chosenMoveIndex);
-  console.log("Mw: " + cases[currentCaseAndSub[0]].moveWeight);
-  */
 
   if (currentCaseAndSub[1] == 1) {
     board[currentCase.posSub1Moves[chosenMoveIndex]] = 1;
@@ -320,7 +332,12 @@ function findMove(detectedCase) {
   }
 
   if (pointSum == 0) {
-    console.log("Ingen gunstige træk. Computeren giver op");
+    alert("Ingen gunstige træk. Computeren giver op!");
+    playerWins += 1;
+    lastResult = "SPILLEREN VINDER";
+    gameEndTime = frameCount;
+    gameOn = false;
+    computerStats.push(computerStats[computerStats.length - 1] - 1);
   } else {
     chosenPoint = random(1, pointSum);
     runCount = 0;
@@ -428,6 +445,11 @@ function restartGame() {
   computerTurn = true;
   moveNum = 1;
   board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  console.log(computerStats);
+  console.log("Computer wins: " + computerWins);
+  console.log("Spiller wins: " + playerWins);
+  console.log("Uafgjorte: " + draws);
+  console.log(cases);
   gameOn = true;
 }
 
