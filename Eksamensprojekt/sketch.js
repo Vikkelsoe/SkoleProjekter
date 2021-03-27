@@ -13,10 +13,14 @@ let cases = [];
 let playedCases = [];
 let playedMoves = [];
 let computerStats = [0];
+
+//Variabler til down- og upload af data
+let statsToPrint = "";
+let subCase1s = [];
+let moveWeights = [];
 let uploadedText1;
 let uploadedText2;
 let uploadedText3;
-let statsToPrint = "";
 
 /*
 Spilbrættet benævnes således:
@@ -158,8 +162,9 @@ function printData() {
     moveWeights.push(cases[i].moveWeight + "\n");
   }
 
+  statsToPrint = "";
   statsToPrint +=
-    str(playerWins) + "," + str(computerWins) + "," + str(draws) + ":";
+    str(playerWins) + ":" + str(computerWins) + ":" + str(draws) + ":";
   for (let i = 0; i < computerStats.length; i++) {
     statsToPrint += str(computerStats[i]) + ",";
   }
@@ -227,18 +232,18 @@ function readCase() {
   }
 
   seperatedText = uploadedText3.split(":");
-  playerWins = int(seperatedText[0][0]);
-  computerWins = int(seperatedText[0][2]);
-  draws = int(seperatedText[0][4]);
+  playerWins = int(seperatedText[0]);
+  computerWins = int(seperatedText[1]);
+  draws = int(seperatedText[2]);
   computerStats = [];
 
   currentNum = "";
 
-  for (let i = 0; i < seperatedText[1].length; i++) {
-    if (seperatedText[1][i] != ",") {
-      currentNum += seperatedText[1][i];
+  for (let i = 0; i < seperatedText[3].length; i++) {
+    if (seperatedText[3][i] != ",") {
+      currentNum += seperatedText[3][i];
     }
-    if (seperatedText[1][i] == "," || i == seperatedText[1].length) {
+    if (seperatedText[3][i] == "," || i == seperatedText[3].length) {
       computerStats.push(int(currentNum));
       currentNum = "";
     }
@@ -445,10 +450,6 @@ function restartGame() {
   computerTurn = true;
   moveNum = 1;
   board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  console.log(computerStats);
-  console.log("Computer wins: " + computerWins);
-  console.log("Spiller wins: " + playerWins);
-  console.log("Uafgjorte: " + draws);
   console.log(cases);
   gameOn = true;
 }
