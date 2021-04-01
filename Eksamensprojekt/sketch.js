@@ -1,27 +1,3 @@
-//AFPRØV SKIDTET
-
-let computerTurn = true;
-let moveNum = 1;
-let gameOn = true;
-let gameEndTime;
-let lastResult;
-let playerWins = 0;
-let computerWins = 0;
-let draws = 0;
-let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-let cases = [];
-let playedCases = [];
-let playedMoves = [];
-let computerStats = [0];
-
-//Variabler til down- og upload af data
-let statsToPrint = "";
-let subCase1s = [];
-let moveWeights = [];
-let uploadedText1;
-let uploadedText2;
-let uploadedText3;
-
 /*
 Spilbrættet benævnes således:
 0 | 1 | 2
@@ -31,6 +7,29 @@ Spilbrættet benævnes således:
 6 | 7 | 8
 */
 
+let computerTurn = true;
+let moveNum = 1;
+let gameOn = true;
+let gameEndTime;
+let lastResult;
+let playerWins = 0;
+let computerWins = 0;
+let draws = 0;
+let board = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //positionen på brættet. 0 er tomt, 1 er bolle (computer) og 2 er kryds (bruger)
+let cases = [];
+let playedCases = []; //holder styr på, hvilke cases, computeren har anvendt i en runde
+let playedMoves = []; //holder styr på, hvilke træk, computeren har udført i de anvendte cases
+let computerStats = [0]; //element 0 er 0, næste element er lig forrige element, hvis uafgjort, forrige element +1, hvis computer vinder og forrige element -1, hvis spiller vinder
+
+//Variabler til down- og upload af data
+let statsToPrint = "";
+let subCase1s = [];
+let moveWeights = [];
+let uploadedText1;
+let uploadedText2;
+let uploadedText3;
+
+//koordinaterne til midtpunkterne på brættets felter
 let positionsX = {
   0: 85,
   1: 255,
@@ -54,6 +53,7 @@ let positionsY = {
   8: 425,
 };
 
+//setup køres én gang ved start af programmet
 function setup() {
   createCanvas(510, 510);
 
@@ -66,19 +66,24 @@ function setup() {
   readCasesButton.mousePressed(readCase);
 }
 
+//draw køres adskillige gange i sekundet
 function draw() {
-  drawBoard();
+  drawBoard(); //tegner brættet med de aktuelle brikker på
 
   if (!gameOn && frameCount >= gameEndTime + 30) {
-    restartGame();
+    restartGame(); //restarter spillet, hvis det er slut
   }
 
   if (computerTurn && gameOn) {
-    computerMove();
+    computerMove(); //lader computeren trække, hvis spillet er igang og det er computerens tur
   }
 }
 
+//mousePressed kører hver gang brugeren klikker med musen
 function mousePressed() {
+  //hvis det er spillerens tur og spillet er igang, identificeres det i hvilket felt brugeren trykker ud fra musens koordinater
+  //derefter opdateres board-listen med et 2-tal, dvs. et kryds sættes, turen skifter, og det undersøges, om spilleren har vundet
+
   if (!computerTurn && gameOn) {
     if (mouseX < 170) {
       if (mouseY < 170) {
@@ -153,10 +158,12 @@ function mousePressed() {
   }
 }
 
+//funktion kaldes, når "Hent data"-knappen trykkes
 function printData() {
   subCase1s = [];
   moveWeights = [];
 
+  //alle subcase-1s og deres tilhørende moveWeight data gemmes i to lister
   for (let i = 0; i < cases.length; i++) {
     subCase1s.push(cases[i].subCase1 + "\n");
     moveWeights.push(cases[i].moveWeight + "\n");
@@ -165,10 +172,13 @@ function printData() {
   statsToPrint = "";
   statsToPrint +=
     str(playerWins) + ":" + str(computerWins) + ":" + str(draws) + ":";
+
+  //computer-stats listen gemmes i en kommasepareret tekststreng
   for (let i = 0; i < computerStats.length; i++) {
     statsToPrint += str(computerStats[i]) + ",";
   }
 
+  //case data om alle subcase 1s, moveWeight data, og statistikdata gemmes i tre tekstfiler, som downloades med saveAs() (fra FileSaver.js, der er hentet fra internettet)
   var blob1 = new Blob(subCase1s, {
     type: "text/plain;charset=utf-8",
   });
@@ -185,10 +195,12 @@ function printData() {
   saveAs(blob3, "StatsData.txt");
 }
 
+//funktion kaldes, når brugeren uploader de tre datafiler
 function readCase() {
   seperatedText = uploadedText1.split("\n");
   inputCases = [];
 
+  //case-data opstilles i en liste
   for (let i = 0; i < seperatedText.length; i++) {
     currentList = [];
     for (let j = 0; j < seperatedText[i].length; j++) {
@@ -205,6 +217,7 @@ function readCase() {
   inputWeights = [];
   currentNum = "";
 
+  //moveWeight-data opstilles i en liste
   for (let i = 0; i < seperatedText.length; i++) {
     currentList = [];
 
@@ -222,11 +235,13 @@ function readCase() {
     }
   }
 
+  //cases og statistik resettes
   cases = [];
   playerWins = 0;
   computerWins = 0;
   draws = 0;
 
+  //der dannes nye cases med de uploadede case-data
   for (let i = 0; i < inputCases.length; i++) {
     cases.push(new UpCase(inputCases[i], inputWeights[i]));
   }
@@ -236,9 +251,9 @@ function readCase() {
   computerWins = int(seperatedText[1]);
   draws = int(seperatedText[2]);
   computerStats = [];
-
   currentNum = "";
 
+  //computerstats opstilles i en liste
   for (let i = 0; i < seperatedText[3].length; i++) {
     if (seperatedText[3][i] != ",") {
       currentNum += seperatedText[3][i];
@@ -253,15 +268,16 @@ function readCase() {
     "Der er blevet indlæst " +
       inputCases.length +
       " cases fra filerne samt tilhørende statistiske data."
-  );
+  ); //pop-up vindue med bekræftelse for upload vises
 }
 
 function computerMove() {
-  let currentCaseAndSub = findCaseAndSub();
+  let currentCaseAndSub = findCaseAndSub(); //den aktuelle case og dens subcase bestemmes. Returnerer en liste [case, subcase]
   let currentCase;
   let chosenMoveIndex;
 
   if (currentCaseAndSub.length == 0) {
+    //hvis ikke der blev fundet en case herover, oprettes en ny
     cases.push(
       new Case([
         board[0],
@@ -279,9 +295,10 @@ function computerMove() {
   }
   currentCase = cases[currentCaseAndSub[0]];
   playedCases.push(currentCaseAndSub[0]);
-  chosenMoveIndex = findMove(currentCase);
+  chosenMoveIndex = findMove(currentCase); //computerens træk-index vælges ud fra den aktuelle case
   playedMoves.push(chosenMoveIndex);
 
+  //computerens træk registreres i baard-listen ud fra cases, subcase og det fundne træk-index
   if (currentCaseAndSub[1] == 1) {
     board[currentCase.posSub1Moves[chosenMoveIndex]] = 1;
   } else if (currentCaseAndSub[1] == 2) {
@@ -302,7 +319,7 @@ function computerMove() {
 
   moveNum += 1;
   computerTurn = false;
-  checkForWin();
+  checkForWin(); //det undersøges, om computeren har vundet
 }
 
 function findCaseAndSub() {
@@ -432,18 +449,21 @@ function restartGame() {
       computerWins +
       " Computer\nAntal uafgjorte: " +
       draws
-  );
+  ); //pop-up vindue med stillingen vises
 
   for (let i = 0; i < playedCases.length; i++) {
     if (lastResult == "SPILLEREN VINDER") {
+      //hvis spilleren vinder, straffes de træk computeren tog ved at fjerne et point for disse træk i de pågældende cases
       if (cases[playedCases[i]].moveWeight[playedMoves[i]] > 0) {
         cases[playedCases[i]].moveWeight[playedMoves[i]] -= 1;
       }
     } else if (lastResult == "COMPUTEREN VINDER") {
+      //hvis computeren vinder, belønnes de træk computeren tog ved at tilføje et point for disse træk i de pågældende cases
       cases[playedCases[i]].moveWeight[playedMoves[i]] += 1;
     }
   }
 
+  //relevante variabler nulstilles herunder
   playedCases = [];
   playedMoves = [];
 
@@ -463,7 +483,9 @@ function drawBoard() {
   line(0, 170, 510, 170);
   line(0, 340, 510, 340);
   for (let i = 0; i < board.length; i++) {
+    //for hvert felt på brættet
     if (board[i] == 1) {
+      //tegn bolle, hvis feltet er lig 1
       strokeWeight(2);
       stroke("black");
       fill("red");
@@ -471,6 +493,7 @@ function drawBoard() {
       fill(200);
       circle(positionsX[i], positionsY[i], 100);
     } else if (board[i] == 2) {
+      //tegn kryds, hvis feltet er lig 2
       strokeWeight(10);
       stroke("green");
       line(
