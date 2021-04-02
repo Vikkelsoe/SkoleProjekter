@@ -1,5 +1,6 @@
 class Case {
   constructor(boardPos) {
+    //subcase 1 sættes lig opstillingen på brættet, og derfra sker der en rotation og spejling af denne opstilling i de øvrige subcases
     this.subCase1 = boardPos;
     this.subCase2 = [
       boardPos[6],
@@ -91,12 +92,14 @@ class Case {
     this.moveWeight = [];
 
     for (let i = 0; i < 9; i++) {
+      //blanke felter i subcase 1 bliver noteret som mulige træk
       if (this.subCase1[i] == 0) {
         this.posSub1Moves.push(i);
       }
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
+      //der tildeles moveWeight point efter, hvor mange træk, der er taget i spillet
       if (moveNum == 1) {
         this.moveWeight.push(100);
       } else if (moveNum == 3) {
@@ -111,6 +114,7 @@ class Case {
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
+      //de mulige træk i subcase 1 blivet overført til de øvrige cases ved rotation og spejling
       if (this.posSub1Moves[i] == 0) {
         this.posSub2Moves.push(2);
         this.posSub3Moves.push(8);

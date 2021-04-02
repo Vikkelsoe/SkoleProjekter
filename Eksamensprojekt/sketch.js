@@ -325,6 +325,7 @@ function computerMove() {
 function findCaseAndSub() {
   let foundCaseAndSub = [];
   for (let i = 0; i < cases.length; i++) {
+    //alle cases i case-lsiten loopes igennem, og det undersøges om der er et match mellem board og et af casens 8 subcases
     if (checkIfEqual(board, cases[i].subCase1)) {
       foundCaseAndSub = [i, 1];
     } else if (checkIfEqual(board, cases[i].subCase2)) {
@@ -343,17 +344,19 @@ function findCaseAndSub() {
       foundCaseAndSub = [i, 8];
     }
   }
-  return foundCaseAndSub;
+  return foundCaseAndSub; //den fundne case og subcase returneres som en liste [case, subcase]
 }
 
 function findMove(detectedCase) {
   let moveIndex;
   let pointSum = 0;
   for (let i = 0; i < detectedCase.moveWeight.length; i++) {
+    //en samlet sandsynlighedsmasse beregnes som en sum af alle point i den pågældende case's moveWeight-liste
     pointSum += detectedCase.moveWeight[i];
   }
 
   if (pointSum == 0) {
+    //computeren giver op, hvis summen i moveWeight er lig 0 (dvs. AI'en vurderer, at der ingen gunstige træk er)
     alert("Ingen gunstige træk. Computeren giver op!");
     playerWins += 1;
     lastResult = "SPILLEREN VINDER";
@@ -361,8 +364,19 @@ function findMove(detectedCase) {
     gameOn = false;
     computerStats.push(computerStats[computerStats.length - 1] - 1);
   } else {
-    chosenPoint = random(1, pointSum);
+    chosenPoint = random(1, pointSum); //et tilfældigt point mellem 1 og point-summen udvælges
     runCount = 0;
+
+    /*et moveIndex udvælges som det index, hvor summen af dette index's moveWeight-point
+    og alle forrige index's moveWeight-point i listen er større end eller lig det valgte point, chosenPoint
+    Eksempel:
+    chosen point: 17
+    moveWeight[10, 15, 34]
+    "summeret moveWeight" [10, 25, 59] (ikke en faktisk liste, men illustrer, hvordan der tænkes her)
+    da index nr. 1 er det index, hvor summen af indexets point og alle forrige indexpoint er
+    større end eller lig med det valgte point (25 er større end 17), bliver index nr. 1 valgt som moveIndex
+    */
+
     for (let i = 0; i < detectedCase.moveWeight.length; i++) {
       runCount += detectedCase.moveWeight[i];
       if (chosenPoint <= runCount) {
@@ -374,8 +388,8 @@ function findMove(detectedCase) {
   return moveIndex;
 }
 
-//funktion kontrollerer om to lister af samme længde har ens elementer i ens rækkefølge
 function checkIfEqual(list1, list2) {
+  //funktionen kontrollerer om to lister af samme længde har ens elementer i ens rækkefølge
   let equals = 0;
   for (let j = 0; j < list1.length; j++) {
     if (list1[j] == list2[j]) {
@@ -401,6 +415,7 @@ function checkForWin() {
     (board[0] == board[4] && board[0] == board[8] && board[0] == 1) ||
     (board[2] == board[4] && board[2] == board[6] && board[2] == 1)
   ) {
+    //en hvilken som helst kombination af tre boller på stribe tjekkes. I så fald noteres computeren for sejr, og denne spilrunde stopper ved at sætte gameOn lig false
     computerWins += 1;
     lastResult = "COMPUTEREN VINDER";
     gameEndTime = frameCount;
@@ -416,6 +431,7 @@ function checkForWin() {
     (board[0] == board[4] && board[0] == board[8] && board[0] == 2) ||
     (board[2] == board[4] && board[2] == board[6] && board[2] == 2)
   ) {
+    //en hvilken som helst kombination af tre krdys på stribe tjekkes. I så fald noteres spilleren for sejr, og denne spilrunde stopper ved at sætte gameOn lig false
     playerWins += 1;
     lastResult = "SPILLEREN VINDER";
     gameEndTime = frameCount;
@@ -432,6 +448,7 @@ function checkForWin() {
     board[7] != 0 &&
     board[8] != 0
   ) {
+    //hvis ingen har vundet, og spilbrættet er fyldt ud, noteres der uafgjort, og spillet stopper ved at sætte gameOn lig false
     draws += 1;
     lastResult = "SPILLET ER UAFGJORT";
     gameEndTime = frameCount;

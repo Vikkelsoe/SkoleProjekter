@@ -1,5 +1,6 @@
 class UpCase {
   constructor(inCases, inWeights) {
+    //subcase 1 sættes lig opstillingen i den givne tekststreng, og derfra sker der en rotation og spejling af denne opstilling i de øvrige subcases
     this.subCase1 = [
       inCases[0],
       inCases[1],
@@ -101,16 +102,19 @@ class UpCase {
     this.moveWeight = [];
 
     for (let i = 0; i < 9; i++) {
+      //blanke felter i subcase 1 bliver noteret som mulige træk
       if (this.subCase1[i] == 0) {
         this.posSub1Moves.push(i);
       }
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
+      //moveWeight pointene hentes fra den givne tekststreng
       this.moveWeight.push(inWeights[i]);
     }
 
     for (let i = 0; i < this.posSub1Moves.length; i++) {
+      //de mulige træk i subcase 1 blivet overført til de øvrige cases ved rotation og spejling
       if (this.posSub1Moves[i] == 0) {
         this.posSub2Moves.push(2);
         this.posSub3Moves.push(8);
