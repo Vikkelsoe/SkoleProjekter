@@ -116,33 +116,33 @@ class Case {
     for (let i = 0; i < this.posSub1Moves.length; i++) {
       //de mulige træk i subcase 1 blivet overført til de øvrige cases ved rotation og spejling
       if (this.posSub1Moves[i] == 0) {
-        this.posSub2Moves.push(2);
+        this.posSub2Moves.push(6);
         this.posSub3Moves.push(8);
-        this.posSub4Moves.push(6);
+        this.posSub4Moves.push(2);
         this.posSub5Moves.push(2);
         this.posSub6Moves.push(8);
         this.posSub7Moves.push(6);
         this.posSub8Moves.push(0);
       } else if (this.posSub1Moves[i] == 1) {
-        this.posSub2Moves.push(5);
+        this.posSub2Moves.push(3);
         this.posSub3Moves.push(7);
-        this.posSub4Moves.push(3);
+        this.posSub4Moves.push(5);
         this.posSub5Moves.push(1);
         this.posSub6Moves.push(5);
         this.posSub7Moves.push(7);
         this.posSub8Moves.push(3);
       } else if (this.posSub1Moves[i] == 2) {
-        this.posSub2Moves.push(8);
+        this.posSub2Moves.push(0);
         this.posSub3Moves.push(6);
-        this.posSub4Moves.push(0);
+        this.posSub4Moves.push(8);
         this.posSub5Moves.push(0);
         this.posSub6Moves.push(2);
         this.posSub7Moves.push(8);
         this.posSub8Moves.push(6);
       } else if (this.posSub1Moves[i] == 3) {
-        this.posSub2Moves.push(1);
+        this.posSub2Moves.push(7);
         this.posSub3Moves.push(5);
-        this.posSub4Moves.push(7);
+        this.posSub4Moves.push(1);
         this.posSub5Moves.push(5);
         this.posSub6Moves.push(7);
         this.posSub7Moves.push(3);
@@ -156,33 +156,33 @@ class Case {
         this.posSub7Moves.push(4);
         this.posSub8Moves.push(4);
       } else if (this.posSub1Moves[i] == 5) {
-        this.posSub2Moves.push(7);
+        this.posSub2Moves.push(1);
         this.posSub3Moves.push(3);
-        this.posSub4Moves.push(1);
+        this.posSub4Moves.push(7);
         this.posSub5Moves.push(3);
         this.posSub6Moves.push(1);
         this.posSub7Moves.push(5);
         this.posSub8Moves.push(7);
       } else if (this.posSub1Moves[i] == 6) {
-        this.posSub2Moves.push(0);
+        this.posSub2Moves.push(8);
         this.posSub3Moves.push(2);
-        this.posSub4Moves.push(8);
+        this.posSub4Moves.push(0);
         this.posSub5Moves.push(8);
         this.posSub6Moves.push(6);
         this.posSub7Moves.push(0);
         this.posSub8Moves.push(2);
       } else if (this.posSub1Moves[i] == 7) {
-        this.posSub2Moves.push(3);
+        this.posSub2Moves.push(5);
         this.posSub3Moves.push(1);
-        this.posSub4Moves.push(5);
+        this.posSub4Moves.push(3);
         this.posSub5Moves.push(7);
         this.posSub6Moves.push(3);
         this.posSub7Moves.push(1);
         this.posSub8Moves.push(5);
       } else if (this.posSub1Moves[i] == 8) {
-        this.posSub2Moves.push(6);
+        this.posSub2Moves.push(2);
         this.posSub3Moves.push(0);
-        this.posSub4Moves.push(2);
+        this.posSub4Moves.push(6);
         this.posSub5Moves.push(6);
         this.posSub6Moves.push(0);
         this.posSub7Moves.push(2);
